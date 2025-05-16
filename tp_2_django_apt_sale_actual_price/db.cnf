@@ -1,0 +1,6 @@
+[client]
+user=apt
+password=apt
+host=127.0.0.1
+database=actual_price
+default-character-set = utf8mb4

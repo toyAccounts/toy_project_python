@@ -1,0 +1,24 @@
+<header>
+
+  <form method="get" action="/apt/search">
+    <!-- 시도 선택 -->
+    <select name="region_id"
+            hx-get="/apt/get-citys"
+            hx-target="#city_id"
+            hx-trigger="change">
+        <option value="">지역을 선택하세요</option>
+        {% for region in regions %}
+          <option value="{{ region.signguCode }}">{{ region.ctprvnNm }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- 도시 선택 -->
+    <select id="city_id" name="city_id">
+      {% include "partials/city_options.html"%}
+    </select>
+
+    <button type="submit">검색</button>
+  </form>
+
+  <nav><a href="/apt/main">Main</a> | <a href="/about/">About</a></nav>
+</header>

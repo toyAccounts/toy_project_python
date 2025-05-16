@@ -7,7 +7,6 @@ from utils.file_util import FileUtil
 from utils.geo_util import GeoUtil
 
 class DataProcessor:
-
     # 필드
     __slots__ = [
                  # set

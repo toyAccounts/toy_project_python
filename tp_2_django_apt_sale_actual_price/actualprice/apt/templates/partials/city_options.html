@@ -1,0 +1,4 @@
+<option value="">도시를 선택하세요</option>
+{% for city in citys %}
+    <option value="{{ city.signguCode }}">{{ city.signguNm }}</option>
+{% endfor %}
