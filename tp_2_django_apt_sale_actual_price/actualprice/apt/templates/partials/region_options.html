@@ -1,0 +1,10 @@
+{% if search_info is None%}
+    <option value="">지역을 선택하세요</option>
+    {% for region in regions %}
+        <option value='{"signguCode": "{{ region.signguCode }}", "ctprvnNm": "{{region.ctprvnNm}}"}'>
+            {{ region.ctprvnNm }}
+        </option>
+    {% endfor %}
+{% else %}
+        <option > {{search_info.region.ctprvnNm}}</option>
+{% endif%}

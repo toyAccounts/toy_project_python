@@ -1,0 +1,174 @@
+/* 로딩 오버레이 */
+#loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 더 어두운 배경으로 변화 */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.spinner-container {
+    text-align: center;
+    color: #fff;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+}
+
+.loading-text {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    animation: fadeInOut 1.5s infinite;
+}
+
+/* 스피너 회전 애니메이션 */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 로딩 텍스트 페이드 애니메이션 */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* 메인 레이아웃 */
+#main {
+    display: flex;
+    flex-wrap: wrap; /* 작은 화면에서 내용들이 쌓이게 */
+    gap: 20px;
+    margin: 20px;
+}
+
+/* 왼쪽 (지도) */
+#content_left {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* 오른쪽 (데이터 + 차트) */
+#content_right {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* 지도 스타일 */
+#map {
+    background-color: #f4f7fc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 600px;
+}
+
+/* 데이터 영역 */
+#data {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px; /* 데이터와 차트 간의 간격 띄우기 */
+}
+
+/* 차트 영역 */
+#chart {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;   /* 부모의 너비에 맞게 자동 크기 조정 */
+    height: 0;     /* 높이를 0으로 설정하여 비율에 맞게 조정 */
+    padding-bottom: 56.25%;  /* 16:9 비율 (100 * 9 / 16) */
+    overflow: hidden; /* 이미지가 영역 밖으로 나가지 않도록 설정 */
+    position: relative;
+}
+
+.chart img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;  /* 이미지를 차트 영역의 너비에 맞게 늘리기 */
+    height: 100%; /* 이미지를 차트 영역의 높이에 맞게 늘리기 */
+    object-fit: contain;  /* 이미지가 영역을 꽉 채우도록 비율을 유지하면서 잘리도록 */
+}
+
+/* 테이블 스타일 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 16px;
+}
+
+.table th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.table tr:hover {
+    background-color: #f7fafc; /* 호버 시 배경 색상 */
+}
+
+.table td {
+    color: #4a5568;
+}
+
+/* 푸터 스타일 */
+footer {
+    background-color: #2d3748;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    margin-top: 30px;
+    border-radius: 8px;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* 반응형 디자인: 모바일 친화적 */
+@media (max-width: 768px) {
+    #main {
+        flex-direction: column; /* 작은 화면에서 세로로 쌓이게 */
+    }
+
+    #content_left,
+    #content_right {
+        min-width: 100%; /* 각 콘텐츠가 100% 차지하게 */
+    }
+
+    .table th, .table td {
+        padding: 10px; /* 모바일에서 폰트 크기 및 여백 줄이기 */
+        font-size: 14px;
+    }
+
+    footer {
+        font-size: 12px; /* 작은 화면에서 폰트 크기 줄이기 */
+    }
+}

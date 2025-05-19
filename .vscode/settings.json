@@ -1,4 +1,8 @@
 {
     "editor.defaultFormatter": null,
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "editor.fontLigatures": false,
+    "files.exclude": {
+    "**/__pycache__": true
+  }
 }

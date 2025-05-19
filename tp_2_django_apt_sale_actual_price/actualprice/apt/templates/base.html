@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,12 +9,29 @@
     <!-- htmx -->
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header_style.css' %}">
   </head>
   <body>
+    {% comment %} <div id="loading-overlay">
+        <div class="spinner">⏳c Loading...</div>
+    </div> {% endcomment %}
+
+    <div id="loading-overlay">
+      <div class="spinner-container">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading...</div>
+      </div>
+    </div>
+
+    <!-- 헤더 -->
     {% include "header.html" %}
 
-    <main>{% block content %}{% endblock %}</main>
+    <!-- 내용 -->
+    <main id="main">{% block content %}{% endblock %}</main>
 
+    <!-- 푸터 -->
     {% include "footer.html" %}
   </body>
 </html>

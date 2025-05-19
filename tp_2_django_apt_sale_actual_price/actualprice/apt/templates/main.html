@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %}main{% endblock %} 
 {% block content%}
-<h2>메인 콘텐츠 영역</h2>
-<p>여기가 메인입니다.</p>
+    <div id="content_left">
+        {% include 'partials/map.html' %}
+    </div>
+    <div id="content_right">
+        {% include 'partials/table.html' %}
+        {% include 'partials/chart.html' %}
+    </div>
 {% endblock %}
