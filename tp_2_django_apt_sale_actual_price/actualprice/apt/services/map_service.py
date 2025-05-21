@@ -11,8 +11,6 @@ class MapService:
     # map 생성
     def generate_map(self, df: pd.DataFrame):
 
-        print(f'--------- df: {df.columns.tolist()}')
-
         # 0. 준비사항
         required_cols = ['lon', 'lat']
 
@@ -37,24 +35,27 @@ class MapService:
     # 맵 html 조회
     def get_map_html(self, df: pd.DataFrame):
 
-        # 1. 맵 생성
+        # 1. 중복제거
+        df = df.drop_duplicates(subset=["lon", "lat"])
+
+        # 2. 맵 생성
         map = self.generate_map(df)
 
         if(map is None): return
 
-        # 2. 맵에 표시
-        for index, rowSeries in df.iterrows():
-            # 0. 준비사항
+        # 3. 맵에 표시
+        for _index, rowSeries in df.iterrows():
+            # 3.0 준비사항
             lat:float = rowSeries["lon"]
             lon:float = rowSeries["lat"]
             mark = f'[{rowSeries["apt_name"]}][{rowSeries["address_road"]}] {rowSeries["price"]}'
 
-            # 1. 검증
+            # 3.1 검증
             # 위도, 경도가 없는 경우 제외
             if((pd.isna(lat)) | (pd.isna(lon))): continue
             
-            # 2. map에 표시
+            # 3.2 map에 표시
             f.Marker([lat, lon], tooltip=mark).add_to(map)
 
-        # html 반환
+        # 4. html 반환
         return map._repr_html_()

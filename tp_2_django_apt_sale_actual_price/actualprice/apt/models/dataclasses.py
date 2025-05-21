@@ -50,3 +50,8 @@ class LOCATION:
 class MapConfig:
     zoom_start: int # 확대 크기
     tiles: f.TileLayer # 지도 타일
+
+
+@dataclass
+class GlobalException:
+    message: str # 에러 메시지

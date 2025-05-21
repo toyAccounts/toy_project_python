@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # path("admin/", admin.site.urls),
+    path('', RedirectView.as_view(url='/apt/main', permanent=True)),
     path("apt/", include("apt.urls")), 
 ]
+
+
+# 에러 핸들러
+handler404 = 'apt.views.errors.custom_404'
+handler500 = 'apt.views.errors.custom_500'

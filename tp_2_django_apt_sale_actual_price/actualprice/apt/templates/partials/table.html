@@ -1,4 +1,38 @@
-<div id="data">
-    <div>데이터</div>
-    {{ table|safe }}
+<div id="title">
+    <span>데이터</span>
+    <button id="download-btn" onclick="downloadExcel()" {% if search_info is None %} disabled {% endif%}>
+        엑셀 다운로드
+    </button>
 </div>
+<div id="data">
+    <div class="table-wrapper">
+        {{ table|safe }}
+    </div>
+</div>
+
+<script>
+    const downloadExcel = () => {
+        const region_info = {
+            signguCode: "{{ search_info.region.signguCode|escapejs }}",
+            ctprvnNm: "{{ search_info.region.ctprvnNm|escapejs }}"
+        };
+
+        const city_info = {
+            signguCode: "{{ search_info.city.signguCode|escapejs }}",
+            signguNm: "{{ search_info.city.signguNm|escapejs }}"
+        };
+
+        const beginDate = "{{ search_info.begin_date|escapejs }}";
+        const endDate = "{{ search_info.end_date|escapejs }}";
+
+        // uri 인코딩
+        const regionParam = encodeURIComponent(JSON.stringify(region_info));
+        const cityParam = encodeURIComponent(JSON.stringify(city_info));
+        const beginDateParam = encodeURIComponent(beginDate);
+        const endDateParam = encodeURIComponent(endDate);
+
+        const url = `{% url 'download_excel' %}?region_info=${regionParam}&city_info=${cityParam}&begin_date=${beginDateParam}&end_date=${endDateParam}`;
+
+        window.location.href = url;
+    }
+</script>

@@ -22,13 +22,18 @@ class DataProcessor:
         self.city_infos: dict[str, CityInfo] = {}
 
 
-    # 데이터 설정
     def set_data(self, csv_data: pd.DataFrame):
+        '''
+            데이터(df_apt_sale_actual_price) 설정
+        '''
+
         self.df_apt_sale_actual_price:pd.DataFrame = csv_data
 
 
-    # 도시 dataFrame 조회
     def get_city_df(self, city_name:str) -> pd.DataFrame:
+        '''
+            도시 dataFrame 조회
+        '''
 
         # 1. 도시 정보 생성
         self.generate_city_info(city_name)
@@ -45,11 +50,12 @@ class DataProcessor:
         return self.city_infos.get(city_name).address_max_price_df
 
 
-    # 도시 정보 생성
     def generate_city_info(self, city_name:str):
+        '''
+            도시 정보 생성
+        '''
 
         # 1. 시군구 조회
-        print(self.df_apt_sale_actual_price.columns.tolist())
         region:pd.Series = self.df_apt_sale_actual_price["시군구"]
 
         # 2. 도시 정보 설정
@@ -58,8 +64,10 @@ class DataProcessor:
                                             city_df=self.df_apt_sale_actual_price[region.str.contains(city_name)].copy()))
     
 
-    # 주소 컬럼 생성
     def generate_column_address(self, city_name:str):
+        '''
+            주소 컬럼 생성
+        '''
 
         # 1. 도시 조회
         city_info:CityInfo | None = self.city_infos.get(city_name)
@@ -74,8 +82,10 @@ class DataProcessor:
         city_df["주소"] = city_df["시군구"] + " " + city_df["번지"]
 
 
-    # 주소별 최대 거래금액 설정
     def set_address_max_price(self, city_name:str):
+        '''
+            주소별 최대 거래금액 설정
+        '''
 
         # 1. 도시 조회
         city_info:CityInfo | None = self.city_infos.get(city_name)
@@ -87,8 +97,10 @@ class DataProcessor:
         city_info.address_max_price_df = self.__get_max_price_group_by_address(city_info.city_df)
 
 
-    # 주소별 최대 거래금액 조회
     def __get_max_price_group_by_address(self, df:pd.DataFrame):
+        '''
+            주소별 최대 거래금액 조회
+        '''
 
         # 1. 그룹화
         df_group:DataFrameGroupBy = df.groupby(["주소"])
@@ -99,8 +111,10 @@ class DataProcessor:
         return df_group_max
     
 
-    # 최대 거래금액의 주소별 위도, 경도 결합
     def concat_address_max_price_to_lon_lat(self, city_name:str):
+        '''
+            최대 거래금액의 주소별 위도, 경도 결합
+        '''
 
         # 1. 도시 조회
         city_info:CityInfo | None = self.city_infos.get(city_name)
@@ -113,20 +127,22 @@ class DataProcessor:
         addresses:np.ndarray = city_info.address_max_price_df["주소"].unique()
 
         # 3.2 주소별 위도, 경도 생성
-        df_lon_lat:pd.DataFrame =self.geo_util.generate_lon_lat(addresses[:10])
+        df_lon_lat:pd.DataFrame =self.geo_util.generate_lon_lat(addresses)
 
         # 4. 위도, 경도 결합
         city_info.address_max_price_df = self.__get_df_concat_lon_lat(city_info.address_max_price_df, df_lon_lat, city_name)
     
 
-    # 위도, 경도 결합 dataFrame 조회
     def __get_df_concat_lon_lat(self, df:pd.DataFrame, lon_lat_data:pd.DataFrame, city_name: str):
-        
-        # 3. 빈값 제거
+        '''
+            위도, 경도 결합 dataFrame 조회
+        '''
+
+        # 1. 빈값 제거
         lon_lat_data_unique = lon_lat_data[(~lon_lat_data["lat"].isnull()) & (~lon_lat_data["lon"].isnull())]
         
-        # 4. 컬럼명 수정
+        # 2. 컬럼명 수정
         lon_lat_data_unique = lon_lat_data_unique.rename(columns={"address": "주소", "lat":"위도", "lon": "경도"})
 
-        # 5. 결합
+        # 3. 결합
         return df.merge(lon_lat_data_unique[["주소" ,"위도", "경도"]], on="주소", how="left") 

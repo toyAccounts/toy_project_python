@@ -12,18 +12,15 @@
     <!-- css -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/header_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal_style.css' %}">
   </head>
   <body>
-    {% comment %} <div id="loading-overlay">
-        <div class="spinner">⏳c Loading...</div>
-    </div> {% endcomment %}
+    <!-- 로딩 -->
+    {% include "partials/loading.html" %}
 
-    <div id="loading-overlay">
-      <div class="spinner-container">
-          <div class="spinner"></div>
-          <div class="loading-text">Loading...</div>
-      </div>
-    </div>
+    <!-- 모달 -->
+    {% include "partials/modal.html" %}
 
     <!-- 헤더 -->
     {% include "header.html" %}
@@ -34,4 +31,24 @@
     <!-- 푸터 -->
     {% include "footer.html" %}
   </body>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          // 모달 표시
+          {% if exception %}
+              document.getElementById("modal").classList.add("show");
+          {% endif %}
+
+          // 로딩 표시 초기화
+          document.getElementById('loading-overlay').style.display = 'none';
+
+          // 모달 닫기 버튼 클릭시
+          document.getElementById("closeBtn").addEventListener("click", function () {
+              document.getElementById("modal").classList.remove("show");
+
+              // 메인 이동
+              window.location.href = "/apt/main"
+          });
+      });
+  </script>
 </html>

@@ -4,7 +4,7 @@ from django.db import models
 
 class AptInfo(models.Model):
     region_code = models.PositiveIntegerField(max_length=10, verbose_name="시도명 코드")
-    city_code = models.PositiveIntegerField(max_length=10, verbose_name="도시명 코드")
+    city_code = models.PositiveIntegerField(max_length=10, verbose_name="도시명 코드", null=True)
     apt_name = models.TextField(max_length=30, verbose_name="아파트 명")
     address_normal = models.TextField(verbose_name="주소(일반)")
     address_road = models.TextField(verbose_name="주소(도로명)")
