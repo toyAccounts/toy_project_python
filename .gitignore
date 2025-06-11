@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,react,nextjs,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,react,nextjs,visualstudiocode
 
+
+### custom add ##
+# testing
+_practice/
+
+
 ### NextJS ###
 # dependencies
 /node_modules
